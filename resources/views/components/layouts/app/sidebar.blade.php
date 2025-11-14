@@ -13,6 +13,13 @@
             <x-app-logo />
         </a>
 
+        @php($roleNames = auth()->user()?->getRoleNames() ?? collect())
+        @if ($roleNames->count())
+            <div class="mt-2 px-1">
+                <flux:badge variant="primary" color='green'>{{ implode(', ', $roleNames->toArray()) }}</flux:badge>
+            </div>
+        @endif
+
         <flux:navlist variant="outline">
             <flux:navlist.group :heading="__('Platform')" class="grid">
                 <flux:navlist.item
@@ -31,8 +38,21 @@
                         :current="request()->routeIs('superadmin.roles.permissions')" wire:navigate>
                         {{ __('Roles & Permissions') }}
                     </flux:navlist.item>
+                    <flux:navlist.item icon="flag" :href="route('superadmin.presidential.elections')"
+                        :current="request()->routeIs('superadmin.presidential.elections')" wire:navigate>
+                        {{ __('Elections') }}
+                    </flux:navlist.item>
                 </flux:navlist.group>
             @endrole
+
+            @hasanyrole('inecofficer|superadmin')
+                <flux:navlist.group :heading="__('INEC')" class="grid mt-2">
+                    <flux:navlist.item icon="shield-check" :href="route('inec.verification')"
+                        :current="request()->routeIs('inec.verification')" wire:navigate>
+                        {{ __('Verify Voters') }}
+                    </flux:navlist.item>
+                </flux:navlist.group>
+            @endhasanyrole
         </flux:navlist>
 
         <flux:spacer />

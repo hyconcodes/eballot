@@ -25,3 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     a.addEventListener('click', () => setState(false))
   })
 })
+
+import { Chart, registerables } from 'chart.js'
+Chart.register(...registerables)
+window.Chart = Chart

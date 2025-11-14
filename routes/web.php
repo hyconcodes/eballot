@@ -12,12 +12,12 @@ Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified', 'role:superadmin'])
     ->name('dashboard');
 
-Route::view('voters/dashboard', 'voters.dashboard')
+Volt::route('voters/dashboard', 'voters.dashboard')
     ->middleware(['auth', 'role:voters'])
     ->name('voters.dashboard');
 
 Route::view('inec/dashboard', 'inec.dashboard')
-    ->middleware(['auth', 'role:inecofficer'])
+    ->middleware(['auth', 'role:inecofficer|superadmin'])
     ->name('inec.dashboard');
 
 Route::middleware(['auth'])->group(function () {
@@ -47,4 +47,16 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('superadmin/roles-permissions', 'superadmin.roles-permissions')
         ->middleware(['auth', 'permission:manage.roles|manage.permissions|assign.permissions'])
         ->name('superadmin.roles.permissions');
+
+    Volt::route('superadmin/presidential-elections', 'superadmin.presidential-elections')
+        ->middleware(['auth', 'role:superadmin'])
+        ->name('superadmin.presidential.elections');
+
+    Volt::route('superadmin/elections/{election}', 'superadmin.election-show')
+        ->middleware(['auth', 'role:superadmin'])
+        ->name('superadmin.elections.show');
+
+    Volt::route('inec/verification', 'inec.verify-voters')
+        ->middleware(['auth', 'role:inecofficer|superadmin'])
+        ->name('inec.verification');
 });
