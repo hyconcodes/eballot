@@ -19,6 +19,7 @@ class RolesAndPermissionsSeeder extends Seeder
             'manage.roles',
             'manage.permissions',
             'assign.permissions',
+            'manage.elections',
         ];
 
         foreach ($permissions as $perm) {
@@ -41,6 +42,18 @@ class RolesAndPermissionsSeeder extends Seeder
         $voters = Role::where('name', 'voters')->first();
         if ($voters) {
             $voters->givePermissionTo($voterPermissions);
+        }
+
+        $inecOfficerPermissions = [
+            'verify.voters',
+            'view.results',
+        ];
+        foreach ($inecOfficerPermissions as $perm) {
+            Permission::firstOrCreate(['name' => $perm, 'guard_name' => 'web']);
+        }
+        $inec = Role::where('name', 'inecofficer')->first();
+        if ($inec) {
+            $inec->givePermissionTo($inecOfficerPermissions);
         }
     }
 }
