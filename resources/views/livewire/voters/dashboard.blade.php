@@ -240,7 +240,7 @@ new class extends Component {
                 <div class="mt-4 grid gap-4 md:grid-cols-2">
                     <div>
                         <label class="block text-sm font-medium">{{ __('Select Election') }}</label>
-                        <select wire:model="viewElectionId" class="mt-2 block w-full rounded border dark:border-zinc-700 bg-white dark:bg-zinc-900 p-2 text-sm">
+                        <select wire:model.live="viewElectionId" class="mt-2 block w-full rounded border dark:border-zinc-700 bg-white dark:bg-zinc-900 p-2 text-sm">
                             @foreach ($allElections as $el)
                                 <option value="{{ $el->id }}">{{ $el->title }}</option>
                             @endforeach
